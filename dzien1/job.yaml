@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: buntus
+spec:
+  ttlSecondsAfterFinished: 100
+  backoffLimit: x
+  activeDeadlineSeconds: x
+  completions: x
+  parallelism: x  
+  template:
+    spec:
+      containers:
+      - name: buntus
+        image: ubuntu
+        command: ["/bin/sh", "-c", "for i in `seq 1 1 100`; do echo $i; done; sleep 10"] 
+      restartPolicy: Never

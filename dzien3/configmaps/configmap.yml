@@ -1,0 +1,46 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: index-html
+data:
+  index.html: "***** ***"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        volumeMounts:
+          - name: index-html-volume
+            mountPath: /usr/share/nginx/html
+      volumes:
+      - name: index-html-volume
+        configMap:
+          name: index-html
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+spec: 
+  type: NodePort
+  ports:
+  - name: "80"
+    port: 80
+    targetPort: 80
+    nodePort: 30080
+  selector:
+    app: nginx

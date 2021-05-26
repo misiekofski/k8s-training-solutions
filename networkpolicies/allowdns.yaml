@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allowdns-all
+spec:
+  podSelector: 
+    matchLabels: {}
+  policyTypes:
+  - Egress
+  egress:
+  - to:
+    - namespaceSelector: 
+        matchLabels: 
+          name: kube-system
+  - ports:
+    - port: 53
+      protocol: UDP

@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: claim1
+  namespace: default
+  labels:
+    app: claim1
+spec:
+  storageClassName: standard
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+--
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: nginx-pvc
+  labels:
+    app: nginx-pvc
+spec:
+  selector:
+    matchLabels:
+      app: nginx-pvc
+  template:
+    metadata:
+      labels:
+        app: nginx-pvc
+    spec:
+      containers:
+      - name: nginx-pvc
+        image: nginx
+        imagePullPolicy: Always
+      volumeMounts:
+        - name:  claim1-volume
+        mountPath:  /claim1
+    volumes:
+      - name:  claim1-volume
+        persistentVolumeClaim:
+          claimName: claim1

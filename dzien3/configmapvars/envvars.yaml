@@ -1,0 +1,57 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        envFrom:
+        - configMapRef:
+            name: env-vars
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: env-vars
+data:
+  ENV1: "***** ***"
+  ENV2: "* ************"
+  WEB: web.example.com
+  DATABASE: db.example.com
+  PROXY: proxy.example.com
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        env:
+        - name: WEB
+          valueFrom:
+            configMapKeyRef:
+              name: env-vars
+              key: WEB

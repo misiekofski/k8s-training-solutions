@@ -1,0 +1,30 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: nginx3
+  namespace: test
+spec:
+  selector:
+    app: nginx3
+  ports:
+  - port: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx3
+  namespace: test
+spec:
+  selector:
+    matchLabels:
+      app: nginx3
+  template:
+    metadata:
+      labels:
+        app: nginx3
+    spec:
+      containers:
+      - name: nginx3
+        image: nginx
+        ports:
+        - containerPort: 80

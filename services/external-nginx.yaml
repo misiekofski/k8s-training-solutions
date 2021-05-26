@@ -1,0 +1,8 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: onet
+  namespace: test
+spec:
+  type: ExternalName
+  externalName: www.onet.pl

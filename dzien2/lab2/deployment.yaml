@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: huzariusz
+spec:
+  selector:
+    matchLabels:
+      app: huzariusz
+  template:
+    metadata:
+      labels:
+        app: huzariusz
+    spec:
+      serviceAccountName: deployment-admin-service-account
+      containers:
+      - name: huzariusz
+        image: huzariusz/rbac-lab:latest
+        command: ["bin/sh", "-c", "sleep infinity"]

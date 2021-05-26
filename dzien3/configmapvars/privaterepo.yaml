@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name:  docker-repo-secrets
+imagePullSecrets:
+  - name: devopslabs
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: registry-secret
+  labels:
+    app: registry-secret
+spec:
+  selector:
+    matchLabels:
+      app: registry-secret
+  template:
+    metadata:
+      labels:
+        app: registry-secret
+    spec:
+      # imagePullSecrets:
+      #   - name:  devopslabs
+      serviceAccountName: docker-repo-secrets
+      containers:
+      - name: registry-secret
+        image: devopslabss/registry-secret
+        imagePullPolicy: Always

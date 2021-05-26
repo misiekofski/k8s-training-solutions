@@ -1,0 +1,3 @@
+- command + arg w pod container nadpisuje entrypoint i cmd
+- activeDeadlineSeconds (failuj poda po jakims czasie)
+- 
