@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    service: nginx
+  name: nginx
+spec:
+  type: NodePort
+  ports:
+  - name: "80"
+    port: 80
+    nodePort: 30080
+  selector:
+    app: nginx
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        imagePullPolicy: Always
+        volumeMounts:
+          - name: nginx-volume
+            mountPath: /usr/share/nginx/html
+        ports:
+        - containerPort: 80
+      initContainers:
+      - name: default-index
+        image: ubuntu
+        command: ["/bin/bash", "-c", "echo Tis msg creuted bah initContainer > /volume/index.html && sleep 20"]
+        volumeMounts:
+          - name: nginx-volume
+            mountPath: /volume
+      volumes:
+        - name: nginx-volume
+          emptyDir: {}

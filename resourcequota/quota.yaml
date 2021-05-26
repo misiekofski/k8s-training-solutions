@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: quota
+---
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: mem-cpu-demo
+  namespace: quota
+spec:
+  hard:
+    requests.cpu: "800m"
+    requests.memory: 1800Mi
+    limits.cpu: "2400m"
+    limits.memory: 1800Mi
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  namespace: quota
+  name: nginx
+  labels:
+    app: nginx
+spec:
+  replicas: 6
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            memory: "600Mi"
+            cpu: "400m"
+          limits:
+            memory: "600Mi"
+            cpu: "800m"
