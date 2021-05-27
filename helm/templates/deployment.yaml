@@ -25,3 +25,10 @@ spec:
           requests:
             memory: {{ .Values.nginx.resourceRequests.mem }}
             cpu: {{ .Values.nginx.resourceRequests.cpu }}
+        volumeMounts:
+          - name: index-html-volume
+            mountPath: /usr/share/nginx/html
+      volumes:
+      - name: index-html-volume
+        configMap:
+          name: {{ .Release.Name }}-index-html

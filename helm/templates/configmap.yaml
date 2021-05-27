@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-index-html
+data:
+  index.html: |
+{{ .Files.Get "index.html" | indent 4}}
+{{- range $key,$value := .Values.nginx.envVars }}
+  {{ $key }}: {{ $value | quote }}
+{{- end }}

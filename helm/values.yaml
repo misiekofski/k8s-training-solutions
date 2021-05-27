@@ -8,3 +8,6 @@ nginx:
     mem: 1Gi
     cpu: 1
   port: 80
+  envVars:
+    VAR1: "var1-content"
+    VAR2: "***"
