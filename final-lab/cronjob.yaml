@@ -1,0 +1,18 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: lister
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: pod-reader-service-account
+          containers:
+          - name: hello
+            image: devopslabss/registry-secret:rbac
+            args: ['/bin/sh', '-c', 'kubectl get pods']
+          restartPolicy: OnFailure
+          imagePullSecrets:
+            - name: devopslabs

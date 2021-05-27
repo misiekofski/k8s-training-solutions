@@ -1,0 +1,4 @@
+appVersion: "2.0"
+description: Helm chart for Kubernetes training
+name: nginx
+version: 0.1.0

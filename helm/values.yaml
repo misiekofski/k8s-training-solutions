@@ -1,0 +1,10 @@
+nginx:
+  image: nginx
+  tag: latest
+  resourceRequests:
+    mem: 1Gi
+    cpu: 1
+  resourceLimits:
+    mem: 1Gi
+    cpu: 1
+  port: 80

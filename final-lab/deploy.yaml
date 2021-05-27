@@ -11,6 +11,7 @@ spec:
       labels:
         app: nginx
     spec:
+      serviceAccountName: pod-reader-service-account
       containers:
       - name: nginx
         image: nginx
@@ -56,6 +57,4 @@ spec:
         configMap:
           name: index-html
       - name: cache-volume
-        emptyDir: {}
-      imagePullSecrets:
-        - name: regcred        
+        emptyDir: {}    

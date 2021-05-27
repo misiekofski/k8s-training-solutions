@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+    spec:
+      imagePullSecrets: 
+        - name: regcred
+      containers:
+      - name: nginx
+        image: {{ .Values.nginx.image }}
+        ports:
+        - containerPort: {{ .Values.nginx.port }}
+        resources:
+          limits:
+            memory: {{ .Values.nginx.resourceLimits.mem }}
+            cpu: {{ .Values.nginx.resourceLimits.cpu }}
+          requests:
+            memory: {{ .Values.nginx.resourceRequests.mem }}
+            cpu: {{ .Values.nginx.resourceRequests.cpu }}
