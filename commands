@@ -2,3 +2,10 @@ sudo minikube start --vm-driver=none
 
 sudo minikube addons enable dashboard
 
+# after secret docker-registry named 'regcred' was created
+k patch serviceaccounts default -p '{"imagePullSecrets":[{"name":"regcred"}]}'
+
+
+
+curl -LO https://storage.googleapis.com/minikube/releases/v1.9.2/minikube-linux-amd64
+sudo install minikube-linux-amd64 /usr/local/bin/minikube

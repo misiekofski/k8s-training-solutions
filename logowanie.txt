@@ -1,0 +1,9 @@
+logowanie:
+- DeamonSet - 1 pod na kazdym nodzie
+
+na poziomie node:
+- kubectl logs
+
+logging agents:
+fluentd, logstash
+

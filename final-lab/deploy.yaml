@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80
+        volumeMounts:
+          - name: index-html-volume
+            mountPath: /usr/share/nginx/html
+          - name: cache-volume
+            mountPath: /cache
+          - name: claim1-volume
+            mountPath: /persistent
+        resources:
+          requests:
+            memory: "50Mi"
+            cpu: "150m"
+          limits:
+            memory: "50Mi"
+            cpu: "150m"
+        env:
+          - name: SECRET_USER
+            valueFrom:
+              secretKeyRef:
+                name: env-vars
+                key: user
+          - name: SECRET_ENV
+            valueFrom:
+              secretKeyRef:
+                name: env-vars
+                key: env
+          - name: SECRET_DB
+            valueFrom:
+              secretKeyRef:
+                name: env-vars
+                key: db
+      imagePullSecrets:
+        - name: regcred                
+      volumes:
+      - name: claim1-volume
+        persistentVolumeClaim:
+          claimName: claim1
+      - name: index-html-volume
+        configMap:
+          name: index-html
+      - name: cache-volume
+        emptyDir: {}
+      imagePullSecrets:
+        - name: regcred        
